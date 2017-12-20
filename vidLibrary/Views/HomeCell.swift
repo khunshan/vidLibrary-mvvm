@@ -8,6 +8,10 @@
 
 import UIKit
 
-class HomeCell: UICollectionViewCell {
+class HomeCell: UITableViewCell {
     
+    @IBOutlet var leftImageView     : UIImageView!
+    @IBOutlet var titleLabel        : UILabel!
+    @IBOutlet var subtitleLabel     : UILabel!
+
 }
