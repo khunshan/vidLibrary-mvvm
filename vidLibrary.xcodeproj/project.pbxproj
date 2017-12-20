@@ -98,11 +98,14 @@
 			isa = PBXGroup;
 			children = (
 				7BA9B50A1FEA362E00843C65 /* AppDelegate.swift */,
-				7BA9B50C1FEA362E00843C65 /* ViewController.swift */,
-				7BA9B50E1FEA362E00843C65 /* Main.storyboard */,
-				7BA9B5111FEA362E00843C65 /* Assets.xcassets */,
-				7BA9B5131FEA362E00843C65 /* LaunchScreen.storyboard */,
-				7BA9B5161FEA362E00843C65 /* Info.plist */,
+				7BA9B5391FEA396000843C65 /* Storyboards */,
+				7BA9B53A1FEA396F00843C65 /* Controllers */,
+				7BA9B53D1FEA398E00843C65 /* APIs */,
+				7BA9B53E1FEA39AF00843C65 /* Models */,
+				7BA9B53C1FEA398400843C65 /* Views */,
+				7BA9B53B1FEA397D00843C65 /* Extensions */,
+				7BA9B5381FEA395500843C65 /* Assets */,
+				7BA9B53F1FEA39C100843C65 /* Other */,
 			);
 			path = vidLibrary;
 			sourceTree = "<group>";
@@ -123,6 +126,67 @@
 				7BA9B52C1FEA362E00843C65 /* Info.plist */,
 			);
 			path = vidLibraryUITests;
+			sourceTree = "<group>";
+		};
+		7BA9B5381FEA395500843C65 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				7BA9B5111FEA362E00843C65 /* Assets.xcassets */,
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
+		7BA9B5391FEA396000843C65 /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				7BA9B50E1FEA362E00843C65 /* Main.storyboard */,
+				7BA9B5131FEA362E00843C65 /* LaunchScreen.storyboard */,
+			);
+			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		7BA9B53A1FEA396F00843C65 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				7BA9B50C1FEA362E00843C65 /* ViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		7BA9B53B1FEA397D00843C65 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		7BA9B53C1FEA398400843C65 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		7BA9B53D1FEA398E00843C65 /* APIs */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = APIs;
+			sourceTree = "<group>";
+		};
+		7BA9B53E1FEA39AF00843C65 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		7BA9B53F1FEA39C100843C65 /* Other */ = {
+			isa = PBXGroup;
+			children = (
+				7BA9B5161FEA362E00843C65 /* Info.plist */,
+			);
+			path = Other;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -428,7 +492,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = VMKP4V7C56;
-				INFOPLIST_FILE = vidLibrary/Info.plist;
+				INFOPLIST_FILE = vidLibrary/Other/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = tin.demo.vidLibrary;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -443,7 +507,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = VMKP4V7C56;
-				INFOPLIST_FILE = vidLibrary/Info.plist;
+				INFOPLIST_FILE = vidLibrary/Other/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = tin.demo.vidLibrary;
 				PRODUCT_NAME = "$(TARGET_NAME)";
