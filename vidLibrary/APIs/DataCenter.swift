@@ -14,11 +14,11 @@ import SwiftyJSON
 /*
  DataCenter Class. For calling APIs and populating models.
  
- Methods prefix convention is
- fetch  -> get
- save   -> post
- update -> put
- delete -> delete
+ prefix convention:
+  fetch  -> get
+  save   -> post
+  update -> put
+  delete -> delete
  */
 
 protocol JSONMapper {
@@ -27,15 +27,23 @@ protocol JSONMapper {
 
 class DataCenter {
 
-    static func fetchMoviesData(completion: @escaping (Movie?, Error?) -> ()) {
+    static func fetchMoviesData(completion: @escaping ([Movie]?, Error?) -> ()) {
+
         let urlString = "http://s3.amazonaws.com/vodassets/showcase.json"
-        //TBD.. call webservices, fetch into models and response back
-        
         
         Alamofire.request(urlString).responseJSON { response in
             switch response.result {
+                
             case .success(let result):
-                completion(Movie(data: result), nil)
+                
+                var movies: [Movie] = []
+                
+                if let moviesArray = JSON(result).to(type: Movie.self) {
+                    movies = moviesArray as! [Movie]
+                }
+                
+                completion(movies, nil)
+                
             case .failure(let error):
                 completion(nil, error)
             }

@@ -9,6 +9,7 @@
 import UIKit
 import SwiftyJSON
 
+//ViewWindow Model
 class Movie: JSONMapper {
     
     let skyGoUrl            :String?
@@ -18,25 +19,24 @@ class Movie: JSONMapper {
     let cert                :String?
     let viewingWindow       :ViewingWindow?
     let headline            :String?
-    let cardImages          :[String]?
-    let directors           :[String]?
+    let cardImages          :[WebImage]?
+    let directors           :[Person]?
     let sum                 :String?
-    let keyArtImages        :[String]?
+    let keyArtImages        :[WebImage]?
     let synopsis            :String?
     let body                :String?
-    let cast                :[String]?
+    let cast                :[Person]?
     let skyGold             :String?
     let year                :String?
     let duration            :Int?
     let rating              :Int?
     let class_              :String?
-    
-    let galleries           :[String]?
-    let videos              :[String]?
+    let galleries           :[Galleries]?
+    let videos              :[Video]?
     let genres              :[String]?
-
     let quote               :String?
 
+    
     required init(data: Any) {
         let json            = JSON(data)
         skyGoUrl            = json["skyGoUrl"].string
@@ -46,36 +46,39 @@ class Movie: JSONMapper {
         cert                = json["cert"].string
         viewingWindow       = ViewingWindow(data: json["viewingWindow"])
         headline            = json["headline"].string
-        cardImages          = ["TBD"] // json["cardImages"].arrayObject as? [String]
-        directors           = ["TBD"] // json["directors"].arrayObject as? [String]
         sum                 = json["sum"].string
-        keyArtImages        = ["TBD"] //json["keyArtImages"].arrayObject as? [String]
         synopsis            = json["synopsis"].string
         body                = json["body"].string
-        cast                = ["TBD"] //json["cast"].arrayObject as? [String]
         skyGold             = json["skyGold"].string
         year                = json["year"].string
         duration            = json["duration"].int
         rating              = json["rating"].int
         class_              = json["class"].string
-        
-        galleries           = ["TBD"] //
-        videos              = ["TBD"] //json
         genres              = json["genres"].arrayObject as? [String]
-        
         quote               = json["quote"].string
+        
+        if let arrayData = JSON(json["cardImages"]).to(type: WebImage.self) { //Array of Object
+            cardImages = arrayData as? [WebImage] } else { cardImages = [] }
+
+        if let arrayData = JSON(json["directors"]).to(type: Person.self) { //Array of Object
+            directors       = arrayData as? [Person] } else { directors = [] }
+        
+        if let arrayData = JSON(json["keyArtImages"]).to(type: WebImage.self) { //Array of Object
+            keyArtImages    = arrayData as? [WebImage] } else { keyArtImages = [] }
+        
+        if let arrayData = JSON(json["directors"]).to(type: Person.self) { //Array of Object
+            cast            = arrayData as? [Person] } else { cast = [] }
+        
+        if let arrayData = JSON(json["galleries"]).to(type: Galleries.self) { //Array of Object
+            galleries       = arrayData as? [Galleries] } else { galleries = [] }
+
+        if let arrayData = JSON(json["videos"]).to(type: Video.self) { //Array of Object
+            videos       = arrayData as? [Video] } else { videos = [] }
     }
 }
 
-class ViewingWindow: JSONMapper {
-    
-    let startDate           : String?
-    let wayToWatch          : String?
-    
-    required init(data: Any) {
-        let json            = JSON(data)
-        startDate           = json["startDate"].string
-        wayToWatch          = json["wayToWatch"].string
 
-    }
-}
+
+
+
+
