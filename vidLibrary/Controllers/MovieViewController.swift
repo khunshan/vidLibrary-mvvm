@@ -35,62 +35,56 @@ class s3: s1 {
 
 class HomeViewController: UIViewController {
     
-    @IBOutlet var segControl: UISegmentedControl!
-    @IBOutlet var tableView: UITableView!
     
-    var movies                 :[Movie]?
-    var selectedIndexPath      :IndexPath?
-    var lastIndexPath          :IndexPath?
+    //MARK: Properties
+    @IBOutlet var segControl    :UISegmentedControl!
+    @IBOutlet var tableView     :UITableView!
+    
+    var movieModel              :MovieViewModel?
+    var selectedIndexPath       :IndexPath?
+    var lastIndexPath           :IndexPath?
     
     
     //MARK: View Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //Init View Model
+        movieModel = MovieViewModel()
+        
         //Fetch Data from Data Center
-        fetchServerData(callback: self.tableView.reloadData())
+        movieModel?.fetchServerData(callback: self.tableView.reloadData())
     }
     
-    //MARK: Data Center
-    func fetchServerData(callback: @escaping @autoclosure () -> Void) {
-        DataCenter.fetchMoviesData { (moviesArray:[Movie]?, error:Error?) in
-            print("response fetched")
-            self.movies = moviesArray
-            callback()
-        }
-    }
     
-    func fetchFavoriteData(callback: @escaping @autoclosure () -> Void) {
-
-        self.movies = nil
-        callback()
-    }
-    
-    //MARK: Sort
-    func sortMovies(sortBy: (Movie, Movie) -> Bool) {
-
-        let temp = movies?.sorted(by: sortBy)
-        
-        movies = temp
-        
-        //Collapse all cells
-        selectedIndexPath = nil
-        lastIndexPath = nil
-        
-        //Reload
-        tableView.reloadData()
-    }
-    
+    //MARK: Sorting
     @IBAction func sortButtonPressed(_ sender: UIButton) {
         
+        //Completion handler for Alert
+        let completion: () -> Void = {
+            //Reload
+            self.tableView.reloadData()
+            //Collapse all cells
+            self.selectedIndexPath = nil
+            self.lastIndexPath = nil
+        }
+        
+        showAlertForSort(completion: completion)
+    }
+    
+    func showAlertForSort(completion: @escaping () -> Void) {
+        
+        //Construct Alert
         let alertController = UIAlertController(title: "Sort by", message: nil, preferredStyle: .alert)
         
         let action1 = UIAlertAction(title: "Title", style: .default) { (action:UIAlertAction) in
-            self.sortMovies(sortBy: { ($0.headline ?? "") < ($1.headline ?? "") })
+            self.movieModel?.sortMovies(sortBy: { ($0.headline ?? "") < ($1.headline ?? "") }, callback: {
+                completion()
+            })
         }
         
         let action2 = UIAlertAction(title: "Year", style: .default) { (action:UIAlertAction) in
-            self.sortMovies(sortBy: { ($0.year ?? "") < ($1.year ?? "") })
+            self.movieModel?.sortMovies(sortBy: { ($0.year ?? "") < ($1.year ?? "") }, callback: completion)
         }
         
         let action3 = UIAlertAction(title: "Cancel", style: .destructive, handler:nil)
@@ -98,24 +92,30 @@ class HomeViewController: UIViewController {
         alertController.addAction(action1)
         alertController.addAction(action2)
         alertController.addAction(action3)
-        self.present(alertController, animated: true, completion: nil)
+        
+        //Present Alert
+        DispatchQueue.main.async {
+            self.present(alertController, animated: true, completion: nil)
+        }
     }
+    
     
     //MARK: Segmented Control Change
     @IBAction func segControlValueChanged(_ sender: Any) {
         let segIndex = segControl.selectedSegmentIndex
         
         if (segIndex == 0) {
-            fetchServerData(callback: self.tableView.reloadData())
-        } else {
-            fetchFavoriteData(callback: self.tableView.reloadData())
+            movieModel?.fetchServerData(callback: self.tableView.reloadData())
+        }
+        else {
+            movieModel?.fetchFavoriteData(callback: self.tableView.reloadData())
         }
     }
     
 }
 
-
-extension HomeViewController: UITableViewDelegate { //MARK : - UITableViewDelegate
+//MARK:- UITableViewDelegate
+extension HomeViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
@@ -123,38 +123,29 @@ extension HomeViewController: UITableViewDelegate { //MARK : - UITableViewDelega
 }
 
 
-extension HomeViewController: UITableViewDataSource { //MARK : - UITableViewDataSource
+//MARK:- UITableViewDataSource
+extension HomeViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return movies?.count ?? 0
+        return movieModel?.moviesCount ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "HomeCell", for: indexPath) as! HomeCell
-        let movie = movies![indexPath.row] as Movie
+        //Configure View Model
+        let cellModelView = MovieCellViewModel(movie: movieModel?.fetchMovie(at: indexPath.row))
         
-        cell.delegate = self
-
-        //Populate movie data
-        cell.titleLabel.text     = "Title: " + (movie.headline ?? "--")
-        cell.subtitleLabel.text  = "Year of release: " + (movie.year ?? "--")
-        
-        if let imageUrlString = movie.keyArtImages?[0].url {
-            cell.leftImageView.kf.setImage(with: URL(string: imageUrlString))
-        } else {
-            cell.leftImageView.image = UIImage(named: "noImage")
-        }
-        
-        //Is Selected Cell Check
+        //Flag
         let isSelected = (indexPath.row == selectedIndexPath?.row)
-        cell.descriptionLabel.numberOfLines = isSelected ? 0 : 1
-        cell.descriptionLabel.text = isSelected ? (movie.synopsis ?? "No Details") : ""
         
+        //Configure Cell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! MovieCell
+        cell.configure(cellViewModel: cellModelView, isSelected: isSelected)
+        cell.delegate = self
         return cell
     }
     
@@ -174,7 +165,8 @@ extension HomeViewController: UITableViewDataSource { //MARK : - UITableViewData
         if let _ = lastIndexPath {
             if (lastIndexPath! == selectedIndexPath) {
                 selectedIndexPath = nil
-            } else {
+            }
+            else {
                 ipToReload.append(lastIndexPath!)
             }
         }
@@ -185,11 +177,12 @@ extension HomeViewController: UITableViewDataSource { //MARK : - UITableViewData
 }
 
 
-extension HomeViewController: HomeCellDelegate { //MARK: - HomeCellDelegate
+//MARK:- MovieCellDelegate
+extension HomeViewController: MovieCellDelegate {
 
     //Home Cell Delegate
-    func moreButtonPressed(cell: HomeCell) {
-        if let ip = tableView.indexPath(for: cell), let movie = movies?[ip.row] {
+    func moreButtonPressed(cell: MovieCell) {
+        if let ip = tableView.indexPath(for: cell), let movie = movieModel?.fetchMovie(at: ip.row) {
             let sb = UIStoryboard(name: "Main", bundle: nil)
             let detail = sb.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
             detail.movie = movie
