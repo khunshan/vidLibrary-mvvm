@@ -9,6 +9,7 @@
 import UIKit
 import Kingfisher
 
+/*
 protocol s1 {
     func func1() -> Void
 }
@@ -30,8 +31,9 @@ class s3: s1 {
         
     }
 }
+*/
 
-class HomeViewController: UIViewController, s1 {
+class HomeViewController: UIViewController {
     
     @IBOutlet var segControl: UISegmentedControl!
     @IBOutlet var tableView: UITableView!
@@ -40,21 +42,16 @@ class HomeViewController: UIViewController, s1 {
     var selectedIndexPath      :IndexPath?
     var lastIndexPath          :IndexPath?
     
-    func func1() {
     
-    }
-    
-
-    
-    //View Lifecycle
+    //MARK: View Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        func2()
+        
         //Fetch Data from Data Center
         fetchServerData(callback: self.tableView.reloadData())
     }
     
-    //Data Center 
+    //MARK: Data Center
     func fetchServerData(callback: @escaping @autoclosure () -> Void) {
         DataCenter.fetchMoviesData { (moviesArray:[Movie]?, error:Error?) in
             print("response fetched")
@@ -69,7 +66,7 @@ class HomeViewController: UIViewController, s1 {
         callback()
     }
     
-    //Sort
+    //MARK: Sort
     func sortMovies(sortBy: (Movie, Movie) -> Bool) {
 
         let temp = movies?.sorted(by: sortBy)
@@ -104,7 +101,7 @@ class HomeViewController: UIViewController, s1 {
         self.present(alertController, animated: true, completion: nil)
     }
     
-    //Segmented Control Changed
+    //MARK: Segmented Control Change
     @IBAction func segControlValueChanged(_ sender: Any) {
         let segIndex = segControl.selectedSegmentIndex
         
@@ -117,7 +114,8 @@ class HomeViewController: UIViewController, s1 {
     
 }
 
-extension HomeViewController: UITableViewDelegate {
+
+extension HomeViewController: UITableViewDelegate { //MARK : - UITableViewDelegate
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
@@ -125,7 +123,7 @@ extension HomeViewController: UITableViewDelegate {
 }
 
 
-extension HomeViewController: UITableViewDataSource {
+extension HomeViewController: UITableViewDataSource { //MARK : - UITableViewDataSource
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -187,7 +185,8 @@ extension HomeViewController: UITableViewDataSource {
 }
 
 
-extension HomeViewController: HomeCellDelegate {
+extension HomeViewController: HomeCellDelegate { //MARK: - HomeCellDelegate
+
     //Home Cell Delegate
     func moreButtonPressed(cell: HomeCell) {
         if let ip = tableView.indexPath(for: cell), let movie = movies?[ip.row] {
