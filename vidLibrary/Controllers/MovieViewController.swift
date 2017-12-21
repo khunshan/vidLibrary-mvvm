@@ -8,6 +8,7 @@
 
 import UIKit
 import Kingfisher
+import SwiftyJSON
 
 /*
 protocol s1 {
@@ -53,7 +54,17 @@ class MovieViewController: UIViewController {
         movieModel = MovieViewModel()
         
         //Fetch Data from Data Center
-        movieModel?.fetchServerData(callback: self.tableView.reloadData())
+        movieModel?.fetchServerData(callback: {
+            self.tableView.reloadData()
+            
+            for movie in (self.movieModel?.movies)! {
+                
+                let dic = movie.toDictionary()
+                let json = JSON(dic)
+                print(json)
+
+            }
+        })
     }
     
     
@@ -105,7 +116,7 @@ class MovieViewController: UIViewController {
         let segIndex = segControl.selectedSegmentIndex
         
         if (segIndex == 0) {
-            movieModel?.fetchServerData(callback: self.tableView.reloadData())
+            movieModel?.fetchServerData(callback: {self.tableView.reloadData()})
         }
         else {
             movieModel?.fetchFavoriteData(callback: self.tableView.reloadData())

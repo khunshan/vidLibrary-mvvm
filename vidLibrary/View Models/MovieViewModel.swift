@@ -19,7 +19,7 @@ protocol Fetchable {
 class MovieViewModel: Fetchable {
 
     //MARK: Model Object
-    private var movies: [Movie]?
+    var movies: [Movie]?
     
     //MARK: Computed Properties
     var moviesCount: Int? {
@@ -43,7 +43,7 @@ class MovieViewModel: Fetchable {
 //MARK: Data Center
 extension MovieViewModel {
     
-    func fetchServerData(callback: @escaping @autoclosure () -> Void) {
+    func fetchServerData(callback: @escaping () -> Void) {
         DataCenter.fetchMoviesData { (moviesArray:[Movie]?, error:Error?) in
             print("response fetched")
             self.movies = moviesArray

@@ -26,7 +26,7 @@ struct Movie: JSONMapper {
     let synopsis            :String?
     let body                :String?
     let cast                :[Person]?
-    let skyGold             :String?
+    let skyGoId             :String?
     let year                :String?
     let duration            :Int?
     let rating              :Int?
@@ -35,7 +35,7 @@ struct Movie: JSONMapper {
     let videos              :[Video]?
     let genres              :[String]?
     let quote               :String?
-
+    
     
     init(data: Any) {
         let json            = JSON(data)
@@ -49,7 +49,7 @@ struct Movie: JSONMapper {
         sum                 = json["sum"].string
         synopsis            = json["synopsis"].string
         body                = json["body"].string
-        skyGold             = json["skyGold"].string
+        skyGoId             = json["skyGoId"].string
         year                = json["year"].string
         duration            = json["duration"].int
         rating              = json["rating"].int
@@ -59,7 +59,7 @@ struct Movie: JSONMapper {
         
         if let arrayData = JSON(json["cardImages"]).to(type: WebImage.self) { //Array of Object
             cardImages = arrayData as? [WebImage] } else { cardImages = [] }
-
+        
         if let arrayData = JSON(json["directors"]).to(type: Person.self) { //Array of Object
             directors       = arrayData as? [Person] } else { directors = [] }
         
@@ -71,10 +71,12 @@ struct Movie: JSONMapper {
         
         if let arrayData = JSON(json["galleries"]).to(type: Galleries.self) { //Array of Object
             galleries       = arrayData as? [Galleries] } else { galleries = [] }
-
+        
         if let arrayData = JSON(json["videos"]).to(type: Video.self) { //Array of Object
             videos       = arrayData as? [Video] } else { videos = [] }
     }
+    
+
 }
 
 
