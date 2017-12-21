@@ -10,14 +10,14 @@ import UIKit
 import SwiftyJSON
 
 //Galleries Model
-class Galleries: JSONMapper {
+struct Galleries: JSONMapper {
     
     let title           : String?
     let url             : String?
     let thumbnailUrl    : String?
     let id              : String?
 
-    required init(data: Any) {
+    init(data: Any) {
         let json        = JSON(data)
         title           = json["title"].string
         url             = json["url"].string

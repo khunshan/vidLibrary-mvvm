@@ -9,14 +9,15 @@
 import UIKit
 import SwiftyJSON
 
-class Video: JSONMapper {
+//Video Model
+struct Video: JSONMapper {
 
     let title        : String?
     let type         : String?
     let url          : String?
     let alternatives : [Alternative]?
     
-    required init(data: Any) {
+    init(data: Any) {
         let json    = JSON(data)
         title       = json["title"].string
         type        = json["type"].string
@@ -28,6 +29,7 @@ class Video: JSONMapper {
 }
 
 
+//Used in Video to collect alternative resolutions
 class Alternative: JSONMapper {
 
     let quality     : String?

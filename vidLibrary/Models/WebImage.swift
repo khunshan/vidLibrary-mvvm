@@ -10,13 +10,13 @@ import UIKit
 import SwiftyJSON
 
 //CardImages Model
-class WebImage: JSONMapper {
+struct WebImage: JSONMapper {
     
     let url     : String?
     let h       : Int?
     let w       : Int?
     
-    required init(data: Any) {
+    init(data: Any) {
         let json    = JSON(data)
         url         = json["url"].string
         h           = json["h"].int

@@ -10,12 +10,12 @@ import UIKit
 import SwiftyJSON
 
 //ViewWindow Model
-class ViewingWindow: JSONMapper {
+struct ViewingWindow: JSONMapper {
     
     let startDate           : String?
     let wayToWatch          : String?
     
-    required init(data: Any) {
+    init(data: Any) {
         let json            = JSON(data)
         startDate           = json["startDate"].string
         wayToWatch          = json["wayToWatch"].string

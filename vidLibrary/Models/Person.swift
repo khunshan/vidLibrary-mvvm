@@ -10,11 +10,11 @@ import UIKit
 import SwiftyJSON
 
 //Person Model
-class Person: JSONMapper {
+struct Person: JSONMapper {
 
     let name     : String?
     
-    required init(data: Any) {
+    init(data: Any) {
         let json     = JSON(data)
         name         = json["name"].string
     }

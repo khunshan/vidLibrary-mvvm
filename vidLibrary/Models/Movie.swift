@@ -10,7 +10,7 @@ import UIKit
 import SwiftyJSON
 
 //ViewWindow Model
-class Movie: JSONMapper {
+struct Movie: JSONMapper {
     
     let skyGoUrl            :String?
     let url                 :String?
@@ -37,7 +37,7 @@ class Movie: JSONMapper {
     let quote               :String?
 
     
-    required init(data: Any) {
+    init(data: Any) {
         let json            = JSON(data)
         skyGoUrl            = json["skyGoUrl"].string
         url                 = json["url"].string
