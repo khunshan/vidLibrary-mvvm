@@ -8,10 +8,20 @@
 
 import Foundation
 
-class MovieModel {
 
-    var movies: [Movie]?
+//Fetchable protocol is useful for such ViewModels that are compose of Collection model data..
+protocol Fetchable {
+    func fetch<T>(at: Int) -> T?
+}
+
+
+//ViewModel for Movies
+class MovieViewModel: Fetchable {
+
+    //MARK: Model Object
+    private var movies: [Movie]?
     
+    //MARK: Computed Properties
     var moviesCount: Int? {
         return movies?.count
     }
@@ -21,11 +31,17 @@ class MovieModel {
         
         let temp = movies?.sorted(by: sortBy)
         movies = temp
+        callback()
+    }
+    
+    //MARK: Fetchable Protocol
+    func fetch<Movie>(at: Int) -> Movie? {
+        return movies?[at] as? Movie
     }
 }
 
 //MARK: Data Center
-extension MovieModel {
+extension MovieViewModel {
     
     func fetchServerData(callback: @escaping @autoclosure () -> Void) {
         DataCenter.fetchMoviesData { (moviesArray:[Movie]?, error:Error?) in

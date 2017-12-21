@@ -6,7 +6,7 @@
 //  Copyright © 2017 Khunshan Ahmad. All rights reserved.
 //
 
-import UIKit
+import Foundation
 import SwiftyJSON
 
 //ViewWindow Model

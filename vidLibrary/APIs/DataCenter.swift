@@ -11,20 +11,21 @@ import Foundation
 import Alamofire
 import SwiftyJSON
 
-/*
- DataCenter Class. For calling APIs and populating models.
- 
- prefix convention:
-  fetch  -> get
-  save   -> post
-  update -> put
-  delete -> delete
- */
 
+//JSONMapper protocol is useful for Model objects initialized with JSON data to be mapped with properties..
 protocol JSONMapper {
     init(data: Any)
 }
 
+
+//DataCenter to handle web API calls and populate models
+/*
+ prefix convention:
+ fetch  -> get
+ save   -> post
+ update -> put
+ delete -> delete
+ */
 class DataCenter {
 
     static func fetchMoviesData(completion: @escaping ([Movie]?, Error?) -> ()) {

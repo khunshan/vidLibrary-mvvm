@@ -33,7 +33,7 @@ class s3: s1 {
 }
 */
 
-class HomeViewController: UIViewController {
+class MovieViewController: UIViewController {
     
     
     //MARK: Properties
@@ -115,7 +115,7 @@ class HomeViewController: UIViewController {
 }
 
 //MARK:- UITableViewDelegate
-extension HomeViewController: UITableViewDelegate {
+extension MovieViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
@@ -124,7 +124,7 @@ extension HomeViewController: UITableViewDelegate {
 
 
 //MARK:- UITableViewDataSource
-extension HomeViewController: UITableViewDataSource {
+extension MovieViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -137,7 +137,7 @@ extension HomeViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         //Configure View Model
-        let cellModelView = MovieCellViewModel(movie: movieModel?.fetchMovie(at: indexPath.row))
+        let cellModelView = MovieCellViewModel(movie: movieModel?.fetch(at: indexPath.row))
         
         //Flag
         let isSelected = (indexPath.row == selectedIndexPath?.row)
@@ -178,13 +178,14 @@ extension HomeViewController: UITableViewDataSource {
 
 
 //MARK:- MovieCellDelegate
-extension HomeViewController: MovieCellDelegate {
+extension MovieViewController: MovieCellDelegate {
 
     //Home Cell Delegate
     func moreButtonPressed(cell: MovieCell) {
-        if let ip = tableView.indexPath(for: cell), let movie = movieModel?.fetchMovie(at: ip.row) {
+        if let ip = tableView.indexPath(for: cell) {
             let sb = UIStoryboard(name: "Main", bundle: nil)
             let detail = sb.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
+            let movie:Movie? = movieModel?.fetch(at: ip.row)
             detail.movie = movie
             present(detail, animated: true, completion: nil)
         }
