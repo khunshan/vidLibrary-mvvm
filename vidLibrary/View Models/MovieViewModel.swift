@@ -17,7 +17,7 @@ protocol Fetchable {
 
 
 //ViewModel for Movies
-class MovieViewModel: Fetchable {
+class MovieViewModel {
     
     //MARK: Model Object
     private var movies: [Movie]?
@@ -35,6 +35,9 @@ class MovieViewModel: Fetchable {
         callback()
     }
     
+}
+
+extension MovieViewModel: Fetchable {
     //MARK: Fetchable Protocol
     func fetch<Movie>(at: Int) -> Movie? {
         if let count = movies?.count, at < count { //Safety check while scrolling tableview, segment change, indexnotfound
@@ -65,6 +68,7 @@ extension MovieViewModel {
         
         FirebaseCenter.sharedInstance.fetchSnapshotForFavoriteData(
             callback: { (moviesArr:[Movie]) in
+                print("fav fetched")
                 self.movies = moviesArr
                 callback()
         })

@@ -14,8 +14,9 @@ protocol JSONMapper {
     //func toDictionary() -> [String:Any]
 }
 
+//Protocol Extension for JSONMapper
 extension JSONMapper {
-    //Converts Object to Dictionary using Mirror library of Swift. i.e. Mirror.child, Mirrr.label, Mirrr.value
+    //Converts Object to Dictionary using Mirror. i.e. Mirror.child, Mirrr.label, Mirrr.value
     func toDictionary() -> [String:Any] {
         var dict = [String:Any]()
         let otherSelf = Mirror(reflecting: self)

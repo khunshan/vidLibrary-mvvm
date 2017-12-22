@@ -36,7 +36,7 @@
                                                         <constraint firstAttribute="height" constant="75" id="tHJ-NY-noE"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qwa-Ol-3gQ">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qwa-Ol-3gQ">
                                                     <rect key="frame" x="97" y="8" width="268" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -55,9 +55,9 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Elv-PC-usK">
-                                                    <rect key="frame" x="336" y="57" width="21" height="26"/>
+                                                    <rect key="frame" x="335" y="57" width="22" height="26"/>
                                                     <inset key="contentEdgeInsets" minX="4" minY="4" maxX="4" maxY="4"/>
-                                                    <state key="normal" title="...">
+                                                    <state key="normal" title="···">
                                                         <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </state>
                                                     <connections>
@@ -65,7 +65,7 @@
                                                     </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bFY-NQ-fjL">
-                                                    <rect key="frame" x="303" y="57" width="29" height="26"/>
+                                                    <rect key="frame" x="302" y="57" width="29" height="26"/>
                                                     <inset key="contentEdgeInsets" minX="4" minY="4" maxX="4" maxY="4"/>
                                                     <state key="normal" title="⭐️">
                                                         <color key="titleColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -107,6 +107,12 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="zwQ-ra-Ghk"/>
                                 </connections>
                             </tableView>
+                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Data" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vCi-mW-Ous">
+                                <rect key="frame" x="149" y="321" width="77.5" height="26.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="ZVB-YF-Q90">
                                 <rect key="frame" x="8" y="28" width="307" height="29"/>
                                 <segments>
@@ -130,6 +136,8 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="vCi-mW-Ous" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="3Ai-Bb-ao9"/>
+                            <constraint firstItem="vCi-mW-Ous" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="4BT-by-vth"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="DoQ-CU-YWC" secondAttribute="bottom" id="IyU-mk-uFY"/>
                             <constraint firstItem="Xtx-u2-sfr" firstAttribute="leading" secondItem="ZVB-YF-Q90" secondAttribute="trailing" constant="8" id="SX8-E9-DjN"/>
                             <constraint firstItem="DoQ-CU-YWC" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="SkE-s7-1rQ"/>
@@ -143,6 +151,7 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="noDataLabel" destination="vCi-mW-Ous" id="Glk-Zm-Gwn"/>
                         <outlet property="segControl" destination="ZVB-YF-Q90" id="Ym5-zD-EvE"/>
                         <outlet property="tableView" destination="DoQ-CU-YWC" id="reG-Q2-jdc"/>
                     </connections>

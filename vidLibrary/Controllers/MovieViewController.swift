@@ -10,14 +10,15 @@ import UIKit
 import Kingfisher
 import SwiftyJSON
 import FirebaseDatabase
+import PKHUD
 
 class MovieViewController: UIViewController {
-    
     
     //MARK: Properties
     @IBOutlet var segControl    :UISegmentedControl!
     @IBOutlet var tableView     :UITableView!
-    
+    @IBOutlet var noDataLabel   :UILabel!
+
     var movieModel              :MovieViewModel?
     var segIndex                :SegIndex = .all
     var selectedIndexPath       :IndexPath?
@@ -43,8 +44,7 @@ class MovieViewController: UIViewController {
             //Reload
             self.reloadTableViewData(scrollToTop: false)
             //Collapse all cells
-            self.selectedIndexPath = nil
-            self.lastIndexPath = nil
+            self.resetIndexPathData()
         }
         
         showAlertForSort(completion: completion)
@@ -88,30 +88,36 @@ class MovieViewController: UIViewController {
             fetchFavoriteData()
             self.segIndex = .favorite
         }
-    }
-    
-    //MARK: Data Calls
-    func fetchServerData(scrollToTop: Bool = true) {
-        movieModel?.fetchServerData(callback: {
-            self.reloadTableViewData(scrollToTop: scrollToTop)
-        })
-    }
-    
-    func fetchFavoriteData(scrollToTop: Bool = true) {
-        movieModel?.fetchFavoriteData(callback: {
-            self.reloadTableViewData(scrollToTop: scrollToTop)
-        })
+        
+        //Collapse all cells
+        self.resetIndexPathData()
     }
   
-    //MARK: Helper
+    //MARK: Helpers
     func reloadTableViewData(scrollToTop: Bool) {
+        
         DispatchQueue.main.async {
+            
             self.tableView.reloadData()
+            
             if (scrollToTop) {
-                self.tableView.setContentOffset(
-                    CGPoint(x: 0, y: -40),animated: false)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.0, execute: {
+                    self.tableView.contentOffset = CGPoint.zero
+                })
             }
+            
+            
+            let count = self.movieModel?.moviesCount ?? 0
+            self.noDataLabel.alpha = (count) <= 0 ? 1.0 : 0.0
+            
+            HUD.flash(.success, delay: Constants.kHUDTimeout)
         }
+    }
+
+    func resetIndexPathData() {
+        //Collapse all cells
+        self.selectedIndexPath = nil
+        self.lastIndexPath = nil
     }
 }
 
@@ -132,7 +138,9 @@ extension MovieViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return movieModel?.moviesCount ?? 0
+        let count = movieModel?.moviesCount ?? 0
+        return count
+        
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -186,6 +194,38 @@ extension MovieViewController: MovieCellDelegate {
     func refresh() {
         print("reloading tableview")
         self.fetchFavoriteData(scrollToTop: false)
+    }
+    
+    func showSuccessHUD() {
+        DispatchQueue.main.async {
+            HUD.flash(.success, delay: Constants.kHUDTimeout)
+        }
+    }
+}
+
+
+//MARK: Data Calls via VM
+extension MovieViewController {
+
+    func fetchServerData(scrollToTop: Bool = true) {
+        
+        DispatchQueue.main.async {
+            HUD.show(.progress)
+        }
+        
+        movieModel?.fetchServerData(callback: {
+            self.reloadTableViewData(scrollToTop: scrollToTop)
+        })
+    }
+    
+    func fetchFavoriteData(scrollToTop: Bool = true) {
+        
+        DispatchQueue.main.async {
+            HUD.show(.progress)
+        }
+        movieModel?.fetchFavoriteData(callback: {
+            self.reloadTableViewData(scrollToTop: scrollToTop)
+        })
     }
 }
 

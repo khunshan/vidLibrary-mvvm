@@ -9,6 +9,7 @@
 import UIKit
 import SwiftyJSON
 
+//Extension for thirdparty SwiftyJSON
 extension JSON {
     
     //https://github.com/SwiftyJSON/SwiftyJSON/issues/714

@@ -8,13 +8,16 @@
 
 import Foundation
 
+
 enum SegIndex: Int {
     case all = 0
     case favorite
 }
 
+
 struct Constants {
-    static let kFavoriteChildFirebaseKey = "favorite-movies"
-    static let kNoImage = "noImage"
+    static let kFavoriteChildFirebaseKey        = "favorite-movies"
+    static let kNoImage                         = "noImage"
+    static let kHUDTimeout                      = 0.3
 }
 

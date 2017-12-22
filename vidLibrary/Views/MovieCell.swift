@@ -11,9 +11,11 @@ import UIKit
 protocol MovieCellDelegate: class {
     func moreButtonPressed(cell: MovieCell)
     func refresh()
+    func showSuccessHUD()
 }
 
 class MovieCell: UITableViewCell {
+    
     
     @IBOutlet var leftImageView     : UIImageView!
     @IBOutlet var titleLabel        : UILabel!
@@ -25,6 +27,7 @@ class MovieCell: UITableViewCell {
     weak var weakSelf   :MovieCell?
     var cellViewModel   :MovieCellViewModel?
     var segmentIndex    :SegIndex?
+    
     
     //MARK: - Configure
     func configure(cellViewModel: MovieCellViewModel, isSelected: Bool, segmentIndex: SegIndex = .all) {
@@ -53,7 +56,7 @@ class MovieCell: UITableViewCell {
         
     }
     
-    //MARK: - More Button
+    //MARK: - Button Actions
     @IBAction func moreButtonPressed(_ sender: UIButton) {
         weakSelf = self
         delegate?.moreButtonPressed(cell: weakSelf!)
@@ -67,6 +70,7 @@ class MovieCell: UITableViewCell {
         }
         else {
             cellViewModel?.saveFavorite()
+            delegate?.showSuccessHUD()
         }
     }
     
