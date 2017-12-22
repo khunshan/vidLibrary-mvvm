@@ -55,11 +55,23 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Elv-PC-usK">
-                                                    <rect key="frame" x="313" y="57" width="44" height="26"/>
+                                                    <rect key="frame" x="336" y="57" width="21" height="26"/>
                                                     <inset key="contentEdgeInsets" minX="4" minY="4" maxX="4" maxY="4"/>
-                                                    <state key="normal" title="More"/>
+                                                    <state key="normal" title="...">
+                                                        <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    </state>
                                                     <connections>
                                                         <action selector="moreButtonPressed:" destination="m8Z-HY-Xtn" eventType="touchUpInside" id="Tcq-gf-ECw"/>
+                                                    </connections>
+                                                </button>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bFY-NQ-fjL">
+                                                    <rect key="frame" x="303" y="57" width="29" height="26"/>
+                                                    <inset key="contentEdgeInsets" minX="4" minY="4" maxX="4" maxY="4"/>
+                                                    <state key="normal" title="⭐️">
+                                                        <color key="titleColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="favoriteButtonPressed:" destination="m8Z-HY-Xtn" eventType="touchUpInside" id="RUN-hq-n5L"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -71,16 +83,19 @@
                                                 <constraint firstItem="jZY-lY-4Xk" firstAttribute="leading" secondItem="cN5-wF-499" secondAttribute="leading" constant="10" id="8eK-Ta-C2C"/>
                                                 <constraint firstItem="Vx7-JR-jn5" firstAttribute="leading" secondItem="jZY-lY-4Xk" secondAttribute="trailing" constant="12" id="CKl-HD-V51"/>
                                                 <constraint firstAttribute="bottom" secondItem="80R-rj-0K7" secondAttribute="bottom" priority="999" constant="8" id="EtM-gk-mB1"/>
+                                                <constraint firstItem="bFY-NQ-fjL" firstAttribute="bottom" secondItem="Elv-PC-usK" secondAttribute="bottom" id="I9x-pm-Wd0"/>
                                                 <constraint firstItem="Elv-PC-usK" firstAttribute="bottom" secondItem="jZY-lY-4Xk" secondAttribute="bottom" id="gX5-T6-iZH"/>
                                                 <constraint firstAttribute="trailing" secondItem="Qwa-Ol-3gQ" secondAttribute="trailing" constant="10" id="lBu-4x-jSN"/>
                                                 <constraint firstItem="Qwa-Ol-3gQ" firstAttribute="leading" secondItem="jZY-lY-4Xk" secondAttribute="trailing" constant="12" id="pMj-ha-SDB"/>
                                                 <constraint firstItem="80R-rj-0K7" firstAttribute="leading" secondItem="cN5-wF-499" secondAttribute="leadingMargin" constant="10" id="pop-jI-sFB"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="Elv-PC-usK" secondAttribute="trailing" constant="10" id="t29-K2-UcT"/>
                                                 <constraint firstItem="Vx7-JR-jn5" firstAttribute="top" secondItem="Qwa-Ol-3gQ" secondAttribute="bottom" constant="12" id="vbL-26-oeX"/>
+                                                <constraint firstItem="Elv-PC-usK" firstAttribute="leading" secondItem="bFY-NQ-fjL" secondAttribute="trailing" constant="4" id="yPm-Uz-tNw"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="descriptionLabel" destination="80R-rj-0K7" id="xtf-fW-MRL"/>
+                                            <outlet property="favoriteButton" destination="bFY-NQ-fjL" id="vUB-KF-IBr"/>
                                             <outlet property="leftImageView" destination="jZY-lY-4Xk" id="H8K-kW-NWW"/>
                                             <outlet property="subtitleLabel" destination="Vx7-JR-jn5" id="VSb-Jr-MRZ"/>
                                             <outlet property="titleLabel" destination="Qwa-Ol-3gQ" id="Dzt-Y4-pyl"/>

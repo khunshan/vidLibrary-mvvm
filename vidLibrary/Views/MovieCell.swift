@@ -10,6 +10,7 @@ import UIKit
 
 protocol MovieCellDelegate: class {
     func moreButtonPressed(cell: MovieCell)
+    func refresh()
 }
 
 class MovieCell: UITableViewCell {
@@ -18,12 +19,17 @@ class MovieCell: UITableViewCell {
     @IBOutlet var titleLabel        : UILabel!
     @IBOutlet var subtitleLabel     : UILabel!
     @IBOutlet var descriptionLabel  : UILabel!
-    
-    weak var delegate:MovieCellDelegate?
-    weak var weakSelf:MovieCell?
+    @IBOutlet var favoriteButton    : UIButton!
+
+    weak var delegate   :MovieCellDelegate?
+    weak var weakSelf   :MovieCell?
+    var cellViewModel   :MovieCellViewModel?
+    var segmentIndex    :SegIndex?
     
     //MARK: - Configure
-    func configure(cellViewModel: MovieCellViewModel, isSelected: Bool) {
+    func configure(cellViewModel: MovieCellViewModel, isSelected: Bool, segmentIndex: SegIndex = .all) {
+        self.cellViewModel = cellViewModel
+        self.segmentIndex = segmentIndex
         
         //Populate Cell
         titleLabel.text     = cellViewModel.movieTitle
@@ -34,18 +40,34 @@ class MovieCell: UITableViewCell {
             leftImageView.kf.setImage(with: url)
         }
         else {
-            leftImageView.image = UIImage(named: "noImage")
+            leftImageView.image = UIImage(named: Constants.kNoImage)
         }
         
         //Is Selected Cell Check
         descriptionLabel.numberOfLines = isSelected ? 0 : 1
         descriptionLabel.text = isSelected ? cellViewModel.movieDetails : ""
+        
+        
+        let favoriteButtonTitle = (segmentIndex == .favorite) ? "DEL" : "⭐️"
+        favoriteButton.setTitle(favoriteButtonTitle, for: .normal)
+        
     }
     
     //MARK: - More Button
     @IBAction func moreButtonPressed(_ sender: UIButton) {
         weakSelf = self
         delegate?.moreButtonPressed(cell: weakSelf!)
+    }
+    
+    @IBAction func favoriteButtonPressed(_ sender: UIButton) {
+
+        if self.segmentIndex == .favorite{
+            cellViewModel?.deleteFavorite()
+            delegate?.refresh()
+        }
+        else {
+            cellViewModel?.saveFavorite()
+        }
     }
     
 }

@@ -12,47 +12,6 @@ import Alamofire
 import SwiftyJSON
 
 
-//JSONMapper protocol is useful for Model objects initialized with JSON data to be mapped with properties..
-protocol JSONMapper {
-    init(data: Any)
-    //func toDictionary() -> [String:Any]
-}
-
-extension JSONMapper {
-    func toDictionary() -> [String:Any] {
-        var dict = [String:Any]()
-        let otherSelf = Mirror(reflecting: self)
-        for child in otherSelf.children {
-            
-            if let key = child.label {
-                
-                if let value = child.value as? String {
-                    dict[key] = value
-                }
-                else if let value = child.value as? Int {
-                    dict[key] = value
-                }
-                else if let value = child.value as? [JSONMapper] {
-                    var arr = [Any]()
-                    for v in value {
-                        arr.append(v.toDictionary())
-                    }
-                    dict[key] = arr
-                }
-                else if let value = child.value as? JSONMapper {
-                    let v = value.toDictionary()
-                    dict[key] = v
-                }
-//                else {
-//                    dict[key] = ""
-//                }
-            }
-        }
-        return dict
-    }
-}
-
-
 //DataCenter to handle web API calls and populate models
 /*
  prefix convention:

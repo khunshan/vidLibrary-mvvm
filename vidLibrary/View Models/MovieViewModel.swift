@@ -7,7 +7,8 @@
 //
 
 import Foundation
-
+import FirebaseDatabase
+import SwiftyJSON
 
 //Fetchable protocol is useful for such ViewModels that are compose of Collection model data..
 protocol Fetchable {
@@ -17,9 +18,9 @@ protocol Fetchable {
 
 //ViewModel for Movies
 class MovieViewModel: Fetchable {
-
+    
     //MARK: Model Object
-    var movies: [Movie]?
+    private var movies: [Movie]?
     
     //MARK: Computed Properties
     var moviesCount: Int? {
@@ -36,14 +37,20 @@ class MovieViewModel: Fetchable {
     
     //MARK: Fetchable Protocol
     func fetch<Movie>(at: Int) -> Movie? {
-        return movies?[at] as? Movie
+        if let count = movies?.count, at < count { //Safety check while scrolling tableview, segment change, indexnotfound
+            return movies?[at] as? Movie
+        }
+        return nil
     }
 }
 
-//MARK: Data Center
+//MARK: Data Center calls
 extension MovieViewModel {
     
     func fetchServerData(callback: @escaping () -> Void) {
+        
+        self.movies?.removeAll()
+        
         DataCenter.fetchMoviesData { (moviesArray:[Movie]?, error:Error?) in
             print("response fetched")
             self.movies = moviesArray
@@ -51,9 +58,16 @@ extension MovieViewModel {
         }
     }
     
-    func fetchFavoriteData(callback: @escaping @autoclosure () -> Void) {
+    //Favorite Data
+    func fetchFavoriteData(callback: @escaping () -> Void) {
         
-        self.movies = nil
-        callback()
+        self.movies?.removeAll()
+        
+        FirebaseCenter.sharedInstance.fetchSnapshotForFavoriteData(
+            callback: { (moviesArr:[Movie]) in
+                self.movies = moviesArr
+                callback()
+        })
+        
     }
 }

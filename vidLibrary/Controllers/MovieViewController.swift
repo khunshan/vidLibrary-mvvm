@@ -9,30 +9,7 @@
 import UIKit
 import Kingfisher
 import SwiftyJSON
-
-/*
-protocol s1 {
-    func func1() -> Void
-}
-
-extension s1 {
-    func func2() -> Void {
-        print("func 2")
-    }
-}
-
-struct s2: s1 {
-    func func1() {
-        
-    }
-}
-
-class s3: s1 {
-    func func1() {
-        
-    }
-}
-*/
+import FirebaseDatabase
 
 class MovieViewController: UIViewController {
     
@@ -42,6 +19,7 @@ class MovieViewController: UIViewController {
     @IBOutlet var tableView     :UITableView!
     
     var movieModel              :MovieViewModel?
+    var segIndex                :SegIndex = .all
     var selectedIndexPath       :IndexPath?
     var lastIndexPath           :IndexPath?
     
@@ -54,19 +32,8 @@ class MovieViewController: UIViewController {
         movieModel = MovieViewModel()
         
         //Fetch Data from Data Center
-        movieModel?.fetchServerData(callback: {
-            self.tableView.reloadData()
-            
-            for movie in (self.movieModel?.movies)! {
-                
-                let dic = movie.toDictionary()
-                let json = JSON(dic)
-                print(json)
-
-            }
-        })
+        self.fetchServerData()
     }
-    
     
     //MARK: Sorting
     @IBAction func sortButtonPressed(_ sender: UIButton) {
@@ -74,7 +41,7 @@ class MovieViewController: UIViewController {
         //Completion handler for Alert
         let completion: () -> Void = {
             //Reload
-            self.tableView.reloadData()
+            self.reloadTableViewData(scrollToTop: false)
             //Collapse all cells
             self.selectedIndexPath = nil
             self.lastIndexPath = nil
@@ -109,20 +76,43 @@ class MovieViewController: UIViewController {
             self.present(alertController, animated: true, completion: nil)
         }
     }
-    
-    
+
     //MARK: Segmented Control Change
     @IBAction func segControlValueChanged(_ sender: Any) {
-        let segIndex = segControl.selectedSegmentIndex
-        
-        if (segIndex == 0) {
-            movieModel?.fetchServerData(callback: {self.tableView.reloadData()})
+
+        if (segControl.selectedSegmentIndex == SegIndex.all.rawValue) {
+            fetchServerData()
+            self.segIndex = .all
         }
         else {
-            movieModel?.fetchFavoriteData(callback: self.tableView.reloadData())
+            fetchFavoriteData()
+            self.segIndex = .favorite
         }
     }
     
+    //MARK: Data Calls
+    func fetchServerData(scrollToTop: Bool = true) {
+        movieModel?.fetchServerData(callback: {
+            self.reloadTableViewData(scrollToTop: scrollToTop)
+        })
+    }
+    
+    func fetchFavoriteData(scrollToTop: Bool = true) {
+        movieModel?.fetchFavoriteData(callback: {
+            self.reloadTableViewData(scrollToTop: scrollToTop)
+        })
+    }
+  
+    //MARK: Helper
+    func reloadTableViewData(scrollToTop: Bool) {
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+            if (scrollToTop) {
+                self.tableView.setContentOffset(
+                    CGPoint(x: 0, y: -40),animated: false)
+            }
+        }
+    }
 }
 
 //MARK:- UITableViewDelegate
@@ -150,24 +140,17 @@ extension MovieViewController: UITableViewDataSource {
         //Configure View Model
         let cellModelView = MovieCellViewModel(movie: movieModel?.fetch(at: indexPath.row))
         
-        //Flag
-        let isSelected = (indexPath.row == selectedIndexPath?.row)
         
         //Configure Cell
         let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! MovieCell
-        cell.configure(cellViewModel: cellModelView, isSelected: isSelected)
+        //Flag
+        let isSelected = (indexPath.row == selectedIndexPath?.row)
+        cell.configure(cellViewModel: cellModelView, isSelected: isSelected, segmentIndex: self.segIndex)
         cell.delegate = self
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //Print JSON
-        /*
-        let encoder = JSONEncoder()
-        let data = try! encoder.encode(movies![indexPath.row])
-        print(String(data: data, encoding: .utf8)!)
-        */
-        
         //Collapse & Expand
         selectedIndexPath = indexPath
         
@@ -190,16 +173,19 @@ extension MovieViewController: UITableViewDataSource {
 
 //MARK:- MovieCellDelegate
 extension MovieViewController: MovieCellDelegate {
-
+    
     //Home Cell Delegate
     func moreButtonPressed(cell: MovieCell) {
-        if let ip = tableView.indexPath(for: cell) {
-            let sb = UIStoryboard(name: "Main", bundle: nil)
-            let detail = sb.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
-            let movie:Movie? = movieModel?.fetch(at: ip.row)
-            detail.movie = movie
-            present(detail, animated: true, completion: nil)
-        }
+        
+        let detail = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier:
+            "DetailViewController") as! DetailViewController
+        
+        present(detail, animated: true, completion: nil)
+    }
+
+    func refresh() {
+        print("reloading tableview")
+        self.fetchFavoriteData(scrollToTop: false)
     }
 }
 

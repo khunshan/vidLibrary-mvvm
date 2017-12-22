@@ -18,6 +18,7 @@
 		7B3B30721FEA6C0A00A4B197 /* Galleries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B3B30711FEA6C0A00A4B197 /* Galleries.swift */; };
 		7B3B30741FEA6DB400A4B197 /* Video.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B3B30731FEA6DB400A4B197 /* Video.swift */; };
 		7B4BD5911FEA89D50064BC69 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B4BD5901FEA89D50064BC69 /* DetailViewController.swift */; };
+		7B7E8BDA1FECDBE80086FBC3 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7E8BD91FECDBE80086FBC3 /* Constants.swift */; };
 		7BA9B50B1FEA362E00843C65 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA9B50A1FEA362E00843C65 /* AppDelegate.swift */; };
 		7BA9B50D1FEA362E00843C65 /* MovieViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA9B50C1FEA362E00843C65 /* MovieViewController.swift */; };
 		7BA9B5101FEA362E00843C65 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7BA9B50E1FEA362E00843C65 /* Main.storyboard */; };
@@ -27,6 +28,9 @@
 		7BA9B52B1FEA362E00843C65 /* vidLibraryUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA9B52A1FEA362E00843C65 /* vidLibraryUITests.swift */; };
 		7BA9B5411FEA3DC100843C65 /* DataCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA9B5401FEA3DC100843C65 /* DataCenter.swift */; };
 		7BA9B5431FEA44EC00843C65 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA9B5421FEA44EC00843C65 /* Movie.swift */; };
+		7BE1DCCC1FEBF1850028DFCC /* FirebaseCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BE1DCCB1FEBF1850028DFCC /* FirebaseCenter.swift */; };
+		7BE1DCD31FEBF3C80028DFCC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7BE1DCD21FEBF3C80028DFCC /* GoogleService-Info.plist */; };
+		7BE1DCD51FEC24F80028DFCC /* JSONMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BE1DCD41FEC24F80028DFCC /* JSONMapper.swift */; };
 		7BFC57821FEA45D1009C89A9 /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BFC57831FEA45D1009C89A9 /* SwiftyJSON.framework */; };
 		7BFC57841FEA45D5009C89A9 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BFC57851FEA45D5009C89A9 /* Alamofire.framework */; };
 /* End PBXBuildFile section */
@@ -61,6 +65,7 @@
 		7B3B30711FEA6C0A00A4B197 /* Galleries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Galleries.swift; sourceTree = "<group>"; };
 		7B3B30731FEA6DB400A4B197 /* Video.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Video.swift; sourceTree = "<group>"; };
 		7B4BD5901FEA89D50064BC69 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		7B7E8BD91FECDBE80086FBC3 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		7BA9B5071FEA362E00843C65 /* vidLibrary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = vidLibrary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7BA9B50A1FEA362E00843C65 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7BA9B50C1FEA362E00843C65 /* MovieViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieViewController.swift; sourceTree = "<group>"; };
@@ -76,7 +81,9 @@
 		7BA9B52C1FEA362E00843C65 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7BA9B5401FEA3DC100843C65 /* DataCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataCenter.swift; sourceTree = "<group>"; };
 		7BA9B5421FEA44EC00843C65 /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
-		7BCA13A31FEBEB5B00873458 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "vidLibrary/Other/GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
+		7BE1DCCB1FEBF1850028DFCC /* FirebaseCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseCenter.swift; sourceTree = "<group>"; };
+		7BE1DCD21FEBF3C80028DFCC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		7BE1DCD41FEC24F80028DFCC /* JSONMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONMapper.swift; sourceTree = "<group>"; };
 		7BFC57831FEA45D1009C89A9 /* SwiftyJSON.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SwiftyJSON.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7BFC57851FEA45D5009C89A9 /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAB97BC3E911BB81F42262A2 /* Pods-vidLibrary.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-vidLibrary.release.xcconfig"; path = "Pods/Target Support Files/Pods-vidLibrary/Pods-vidLibrary.release.xcconfig"; sourceTree = "<group>"; };
@@ -134,6 +141,7 @@
 		7BA9B4FE1FEA362D00843C65 = {
 			isa = PBXGroup;
 			children = (
+				7BE1DCD21FEBF3C80028DFCC /* GoogleService-Info.plist */,
 				7BA9B5091FEA362E00843C65 /* vidLibrary */,
 				7BA9B51E1FEA362E00843C65 /* vidLibraryTests */,
 				7BA9B5291FEA362E00843C65 /* vidLibraryUITests */,
@@ -234,6 +242,7 @@
 			isa = PBXGroup;
 			children = (
 				7BA9B5401FEA3DC100843C65 /* DataCenter.swift */,
+				7BE1DCCB1FEBF1850028DFCC /* FirebaseCenter.swift */,
 			);
 			path = APIs;
 			sourceTree = "<group>";
@@ -247,6 +256,7 @@
 				7B3B306F1FEA68EF00A4B197 /* Person.swift */,
 				7B3B30711FEA6C0A00A4B197 /* Galleries.swift */,
 				7B3B30731FEA6DB400A4B197 /* Video.swift */,
+				7BE1DCD41FEC24F80028DFCC /* JSONMapper.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -254,8 +264,8 @@
 		7BA9B53F1FEA39C100843C65 /* Other */ = {
 			isa = PBXGroup;
 			children = (
-				7BCA13A31FEBEB5B00873458 /* GoogleService-Info.plist */,
 				7BA9B5161FEA362E00843C65 /* Info.plist */,
+				7B7E8BD91FECDBE80086FBC3 /* Constants.swift */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -380,6 +390,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7BA9B5151FEA362E00843C65 /* LaunchScreen.storyboard in Resources */,
+				7BE1DCD31FEBF3C80028DFCC /* GoogleService-Info.plist in Resources */,
 				7BA9B5121FEA362E00843C65 /* Assets.xcassets in Resources */,
 				7BA9B5101FEA362E00843C65 /* Main.storyboard in Resources */,
 			);
@@ -430,6 +441,7 @@
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework",
+				"${BUILT_PRODUCTS_DIR}/PKHUD/PKHUD.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
@@ -439,6 +451,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PKHUD.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
@@ -471,6 +484,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7B3B30681FEA56B800A4B197 /* Extensions.swift in Sources */,
+				7B7E8BDA1FECDBE80086FBC3 /* Constants.swift in Sources */,
 				7BA9B5411FEA3DC100843C65 /* DataCenter.swift in Sources */,
 				7BA9B50D1FEA362E00843C65 /* MovieViewController.swift in Sources */,
 				7B4BD5911FEA89D50064BC69 /* DetailViewController.swift in Sources */,
@@ -478,7 +492,9 @@
 				7B0832F11FEBC0770006AEAA /* MovieCellViewModel.swift in Sources */,
 				7BA9B5431FEA44EC00843C65 /* Movie.swift in Sources */,
 				7B0832EF1FEBB9E10006AEAA /* MovieViewModel.swift in Sources */,
+				7BE1DCCC1FEBF1850028DFCC /* FirebaseCenter.swift in Sources */,
 				7B3B306A1FEA5FA100A4B197 /* MovieCell.swift in Sources */,
+				7BE1DCD51FEC24F80028DFCC /* JSONMapper.swift in Sources */,
 				7B3B30721FEA6C0A00A4B197 /* Galleries.swift in Sources */,
 				7B3B30741FEA6DB400A4B197 /* Video.swift in Sources */,
 				7BA9B50B1FEA362E00843C65 /* AppDelegate.swift in Sources */,

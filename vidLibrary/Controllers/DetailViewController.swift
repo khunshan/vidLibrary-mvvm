@@ -10,11 +10,10 @@ import UIKit
 
 class DetailViewController: UIViewController {
 
-    var movie: Movie?
+    var movieModel: MovieViewModel?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(movie!.headline ?? "NA")
     }
     
     @IBAction func backButtonPressed(_ sender: UIButton) {
