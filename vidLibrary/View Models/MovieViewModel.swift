@@ -20,18 +20,19 @@ protocol Fetchable {
 class MovieViewModel {
     
     //MARK: Model Object
-    private var movies: [Movie]?
+    
+    /*private*/ var movies = Binder<[Movie]>([])
     
     //MARK: Computed Properties
     var moviesCount: Int? {
-        return movies?.count
+        return movies.value.count
     }
     
     //MARK: Sort
     func sortMovies(sortBy: (Movie, Movie) -> Bool, callback: @escaping () -> Void) {
         
-        let temp = movies?.sorted(by: sortBy)
-        movies = temp
+        let temp = movies.value.sorted(by: sortBy)
+        movies.value = temp
         callback()
     }
     
@@ -40,8 +41,10 @@ class MovieViewModel {
 extension MovieViewModel: Fetchable {
     //MARK: Fetchable Protocol
     func fetch<Movie>(at: Int) -> Movie? {
-        if let count = movies?.count, at < count { //Safety check while scrolling tableview, segment change, indexnotfound
-            return movies?[at] as? Movie
+        let count = movies.value.count
+        
+        if at < count { //Safety check while scrolling tableview, segment change, indexnotfound
+            return movies.value[at] as? Movie
         }
         return nil
     }
@@ -50,27 +53,22 @@ extension MovieViewModel: Fetchable {
 //MARK: Data Center calls
 extension MovieViewModel {
     
-    func fetchServerData(callback: @escaping () -> Void) {
+    func fetchServerData(callback: (() -> Void)? = nil) {
         
-        self.movies?.removeAll()
-        
-        DataCenter.fetchMoviesData { (moviesArray:[Movie]?, error:Error?) in
-            print("response fetched")
-            self.movies = moviesArray
-            callback()
+        DataCenter.fetchMoviesData { (response:[Movie]?, error:Error?) in
+            guard let moviesArray = response else { print("response is nil"); return}
+            self.movies.value.removeAll()
+            self.movies.value = moviesArray
         }
     }
     
     //Favorite Data
-    func fetchFavoriteData(callback: @escaping () -> Void) {
+    func fetchFavoriteData(callback: (() -> Void)? = nil) {
         
-        self.movies?.removeAll()
-        
-        FirebaseCenter.sharedInstance.fetchSnapshotForFavoriteData(
-            callback: { (moviesArr:[Movie]) in
-                print("fav fetched")
-                self.movies = moviesArr
-                callback()
+        FirebaseCenter.sharedInstance.fetchSnapshotForFavoriteData(callback: { (response:[Movie]?) in
+            guard let moviesArray = response else { print("response is nil"); return}
+            self.movies.value.removeAll()
+            self.movies.value = moviesArray
         })
         
     }

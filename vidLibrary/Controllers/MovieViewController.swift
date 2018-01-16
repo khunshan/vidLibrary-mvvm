@@ -24,6 +24,7 @@ class MovieViewController: UIViewController {
     var selectedIndexPath       :IndexPath?
     var lastIndexPath           :IndexPath?
     
+
     
     //MARK: View Lifecycle
     override func viewDidLoad() {
@@ -31,9 +32,14 @@ class MovieViewController: UIViewController {
         
         //Init View Model
         movieModel = MovieViewModel()
+        movieModel!.movies.bind(listener: { (temp) in
+            print("calling listener")
+            self.reloadTableViewData(scrollToTop: true)
+        })
         
         //Fetch Data from Data Center
         self.fetchServerData()
+        
     }
     
     //MARK: Sorting
@@ -213,9 +219,7 @@ extension MovieViewController {
             HUD.show(.progress)
         }
         
-        movieModel?.fetchServerData(callback: {
-            self.reloadTableViewData(scrollToTop: scrollToTop)
-        })
+        movieModel?.fetchServerData()
     }
     
     func fetchFavoriteData(scrollToTop: Bool = true) {
@@ -223,9 +227,7 @@ extension MovieViewController {
         DispatchQueue.main.async {
             HUD.show(.progress)
         }
-        movieModel?.fetchFavoriteData(callback: {
-            self.reloadTableViewData(scrollToTop: scrollToTop)
-        })
+        movieModel?.fetchFavoriteData()
     }
 }
 
