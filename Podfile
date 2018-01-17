@@ -9,4 +9,5 @@ target 'vidLibrary' do
     pod 'Firebase/Database'
     pod 'Firebase/Database'
     pod 'PKHUD', '~> 5.0'
+    pod 'Bond'
 end
