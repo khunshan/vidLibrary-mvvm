@@ -9,8 +9,8 @@
 import Foundation
 
 
-enum SegIndex: Int {
-    case all = 0
+enum Category {
+    case all
     case favorite
 }
 

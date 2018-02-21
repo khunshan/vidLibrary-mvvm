@@ -26,11 +26,11 @@ class MovieCell: UITableViewCell {
     weak var delegate   :MovieCellDelegate?
     weak var weakSelf   :MovieCell?
     var cellViewModel   :MovieCellViewModel?
-    var segmentIndex    :SegIndex?
+    var segmentIndex    :Category?
     
     
     //MARK: - Configure
-    func configure(cellViewModel: MovieCellViewModel, isSelected: Bool, segmentIndex: SegIndex = .all) {
+    func configure(cellViewModel: MovieCellViewModel, isSelected: Bool, segmentIndex: Category = .all) {
         self.cellViewModel = cellViewModel
         self.segmentIndex = segmentIndex
         

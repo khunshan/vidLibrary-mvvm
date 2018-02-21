@@ -9,6 +9,7 @@
 import Foundation
 import FirebaseDatabase
 import SwiftyJSON
+import Bond
 
 //Fetchable protocol is useful for such ViewModels that are compose of Collection model data..
 protocol Fetchable {
@@ -20,18 +21,24 @@ protocol Fetchable {
 class MovieViewModel {
     
     //MARK: Model Object
-    private var movies: [Movie]?
+    //private var movies: [Movie]?
+    var movies = MutableObservableArray<Movie>([])
+    
     
     //MARK: Computed Properties
     var moviesCount: Int? {
-        return movies?.count
+        return movies.count
     }
     
     //MARK: Sort
     func sortMovies(sortBy: (Movie, Movie) -> Bool, callback: @escaping () -> Void) {
         
-        let temp = movies?.sorted(by: sortBy)
-        movies = temp
+        let temp = movies.array.sorted(by: sortBy)
+        movies.removeAll()
+        movies.insert(contentsOf: temp, at: 0)
+        
+        //let temp = movies.sorted(by: sortBy)
+        //movies = temp
         callback()
     }
     
@@ -40,8 +47,9 @@ class MovieViewModel {
 extension MovieViewModel: Fetchable {
     //MARK: Fetchable Protocol
     func fetch<Movie>(at: Int) -> Movie? {
-        if let count = movies?.count, at < count { //Safety check while scrolling tableview, segment change, indexnotfound
-            return movies?[at] as? Movie
+        let count = movies.count
+        if at < count { //Safety check while scrolling tableview, segment change, indexnotfound
+            return movies[at] as? Movie
         }
         return nil
     }
@@ -52,11 +60,12 @@ extension MovieViewModel {
     
     func fetchServerData(callback: @escaping () -> Void) {
         
-        self.movies?.removeAll()
+       // self.movies.removeAll()
         
         DataCenter.fetchMoviesData { (moviesArray:[Movie]?, error:Error?) in
             print("response fetched")
-            self.movies = moviesArray
+            self.movies.removeAll()
+            self.movies.insert(contentsOf: moviesArray ?? [], at: 0)
             callback()
         }
     }
@@ -64,12 +73,13 @@ extension MovieViewModel {
     //Favorite Data
     func fetchFavoriteData(callback: @escaping () -> Void) {
         
-        self.movies?.removeAll()
+       // self.movies.removeAll()
         
         FirebaseCenter.sharedInstance.fetchSnapshotForFavoriteData(
-            callback: { (moviesArr:[Movie]) in
+            callback: { (moviesArray:[Movie]) in
                 print("fav fetched")
-                self.movies = moviesArr
+                self.movies.removeAll()
+                self.movies.insert(contentsOf: moviesArray, at: 0)
                 callback()
         })
         

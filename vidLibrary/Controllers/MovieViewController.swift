@@ -11,6 +11,7 @@ import Kingfisher
 import SwiftyJSON
 import FirebaseDatabase
 import PKHUD
+import Bond
 
 class MovieViewController: UIViewController {
     
@@ -20,7 +21,7 @@ class MovieViewController: UIViewController {
     @IBOutlet var noDataLabel   :UILabel!
 
     var movieModel              :MovieViewModel?
-    var segIndex                :SegIndex = .all
+    var selectedCategory        :Category = .all
     var selectedIndexPath       :IndexPath?
     var lastIndexPath           :IndexPath?
     
@@ -31,6 +32,9 @@ class MovieViewController: UIViewController {
         
         //Init View Model
         movieModel = MovieViewModel()
+        
+        //Do Binding
+        self.bind()
         
         //Fetch Data from Data Center
         self.fetchServerData()
@@ -80,13 +84,13 @@ class MovieViewController: UIViewController {
     //MARK: Segmented Control Change
     @IBAction func segControlValueChanged(_ sender: Any) {
 
-        if (segControl.selectedSegmentIndex == SegIndex.all.rawValue) {
+        if (segControl.selectedSegmentIndex == 0) {
             fetchServerData()
-            self.segIndex = .all
+            selectedCategory = .all
         }
         else {
             fetchFavoriteData()
-            self.segIndex = .favorite
+            selectedCategory = .favorite
         }
         
         //Collapse all cells
@@ -94,6 +98,30 @@ class MovieViewController: UIViewController {
     }
   
     //MARK: Helpers
+    func bind() {
+        
+        movieModel?.movies.bind(to: tableView, createCell: { (movies, indexPath, tableView) -> UITableViewCell in
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! MovieCell
+            
+            let isSelected = (indexPath.row == self.selectedIndexPath?.row)
+            
+            let cellModelView = MovieCellViewModel(movie: self.movieModel?.fetch(at: indexPath.row))
+            
+            //Configure Cell
+            cell.configure(cellViewModel: cellModelView, isSelected: isSelected, segmentIndex: self.selectedCategory)
+            cell.delegate = self
+            return cell
+            
+        })
+        
+        segControl.reactive.bond(context: ExecutionContext) { (segmentControl, element) in
+            //element
+        }
+        
+        //segControl.reactive.controlEvents(.valueChanged).bind(to:))
+    }
+    
     func reloadTableViewData(scrollToTop: Bool) {
         
         DispatchQueue.main.async {
@@ -143,19 +171,21 @@ extension MovieViewController: UITableViewDataSource {
         
     }
     
+    //Commented. Now using Bond Framework implementation for cell.
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         //Configure View Model
-        let cellModelView = MovieCellViewModel(movie: movieModel?.fetch(at: indexPath.row))
+        /*let cellModelView = MovieCellViewModel(movie: movieModel?.fetch(at: indexPath.row))
         
         
         //Configure Cell
         let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! MovieCell
         //Flag
         let isSelected = (indexPath.row == selectedIndexPath?.row)
-        cell.configure(cellViewModel: cellModelView, isSelected: isSelected, segmentIndex: self.segIndex)
+        cell.configure(cellViewModel: cellModelView, isSelected: isSelected, segmentIndex: self.Category)
         cell.delegate = self
-        return cell
+        return cell*/
+        return UITableViewCell()
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
